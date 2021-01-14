@@ -1,5 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import { faCandyCane} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 import clsx from 'clsx';
 
@@ -8,10 +14,14 @@ import clsx from 'clsx';
 
 import styles from './Header.module.scss';
 
-const Component = ({className, children}) => (
+const Component = ({className}) => (
   <div className={clsx(className, styles.root)}>
-    <h2>Header</h2>
-    {children}
+    <AppBar position="static" color='white'>
+      <Toolbar>
+        <FontAwesomeIcon icon={faCandyCane} className={styles.icon}>Bulletin-board</FontAwesomeIcon>
+        <Button color="inherit">Login</Button>
+      </Toolbar>
+    </AppBar>
   </div>
 );
 
