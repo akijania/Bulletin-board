@@ -8,7 +8,7 @@ import styles from './NotFound.module.scss';
 
 const Component = ({ className }) => (
   <div className={clsx(className, styles.root)}>
-    <p>404-not found</p>
+    <h1>404-not found</h1>
     <Link exact to="/">
       Home Page
     </Link>

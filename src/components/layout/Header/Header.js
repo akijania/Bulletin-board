@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-import { faCandyCane} from '@fortawesome/free-solid-svg-icons';
+import { faCandyCane, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 
 import clsx from 'clsx';
 
@@ -14,19 +13,37 @@ import clsx from 'clsx';
 
 import styles from './Header.module.scss';
 
-const Component = ({className}) => (
+const Component = ({ className }) => (
   <div className={clsx(className, styles.root)}>
-    <AppBar position="static" color='white'>
-      <Toolbar>
-        <FontAwesomeIcon icon={faCandyCane} className={styles.icon}>Bulletin-board</FontAwesomeIcon>
-        <Button color="inherit">Login</Button>
+    <AppBar position="static" color="white">
+      <Toolbar className={styles.toolbar}>
+        <FontAwesomeIcon icon={faCandyCane} className={styles.icon}>
+          Bulletin-board
+        </FontAwesomeIcon>
+        <div>
+          <div className={styles.login}>
+            <Button className={styles.button} color="inherit">
+              Login
+            </Button>
+          </div>
+          <div className={styles.logout}>
+            <Button className={styles.button} color="inherit">
+              <FontAwesomeIcon
+                icon={faUserCircle}
+                className={styles.icon}
+              ></FontAwesomeIcon>
+            </Button>
+            <Button className={styles.button} color="inherit">
+              Logout
+            </Button>
+          </div>
+        </div>
       </Toolbar>
     </AppBar>
   </div>
 );
 
 Component.propTypes = {
-  children: PropTypes.node,
   className: PropTypes.string,
 };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -16,9 +17,11 @@ import styles from './Homepage.module.scss';
 
 const Component = ({ className, posts }) => (
   <div className={clsx(className, styles.root)}>
-    <Button variant="contained" color="default">
-      Add new post
-    </Button>
+    <Link to="/post/add" className={styles.button}>
+      <Button variant="contained" color="default">
+        Add new post
+      </Button>
+    </Link>
     {posts.map((item) => (
       <div key={item.id} className={styles.post}>
         <Card>
@@ -30,7 +33,9 @@ const Component = ({ className, posts }) => (
             </Grid>
             <Grid item xs={8}>
               <CardContent>
-                <h2>{item.title}</h2>
+                <Link to={`/post/${item.id}`} className={styles.button}>
+                  <h2>{item.title}</h2>
+                </Link>
               </CardContent>
             </Grid>
           </Grid>

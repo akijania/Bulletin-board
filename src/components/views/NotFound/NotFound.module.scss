@@ -1,4 +1,8 @@
 @import '../../../styles/settings.scss';
 
-// .root {
-// }
+.root {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: center;
+}

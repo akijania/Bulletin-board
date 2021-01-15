@@ -1,10 +1,21 @@
-@import '../../../styles/settings.scss';
+@import "../../../styles/settings.scss";
 
 .root {
-    margin-bottom: 50px;
+  margin-bottom: 50px;
 }
+
 .icon {
-    color: $color-main;
-    transform: scale(1.5);
-    margin-right: 20px;
+  color: $color-main;
+  transform: scale(1.5);
+  margin-right: 20px;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 30px;
+}
+
+.logout {
+  display: none;
 }
