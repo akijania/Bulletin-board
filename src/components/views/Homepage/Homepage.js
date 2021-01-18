@@ -6,22 +6,22 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 
-import { getAll } from '../../../redux/postsRedux';
-
 import clsx from 'clsx';
 
 import { connect } from 'react-redux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
+import { getAll } from '../../../redux/postsRedux';
 
 import styles from './Homepage.module.scss';
 
-const Component = ({ className, posts }) => (
+const Component = ({ className, posts, user }) => (
   <div className={clsx(className, styles.root)}>
+    { user.active === true &&
     <Link to="/post/add" className={styles.button}>
       <Button variant="contained" color="default">
         Add new post
       </Button>
     </Link>
+    }
     {posts.map((item) => (
       <div key={item.id} className={styles.post}>
         <Card>
@@ -47,21 +47,18 @@ const Component = ({ className, posts }) => (
 
 Component.propTypes = {
   posts: PropTypes.array,
+  user: PropTypes.object,
   className: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
   posts: getAll(state),
+  user: state.user,
 });
-
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
 
 const Container = connect(mapStateToProps)(Component);
 
 export {
-  // Component as Homepage,
   Container as Homepage,
   Component as HomepageComponent,
 };

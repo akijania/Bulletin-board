@@ -94,7 +94,7 @@ const Component = ({ className, children }) => (
         type="submit"
         variant="contained"
         className={styles.button}
-        color="default"
+        color="primary"
       >
         Submit
       </Button>

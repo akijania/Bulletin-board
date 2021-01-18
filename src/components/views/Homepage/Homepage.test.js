@@ -15,8 +15,10 @@ describe('Component Homepage', () => {
         title: 'New car',
       },
     ];
-    
-    const component = shallow(<HomepageComponent posts={posts} />);
+    const user = {
+      active: true,
+    };
+    const component = shallow(<HomepageComponent posts={posts} user={user} />);
     expect(component).toBeTruthy();
   });
 });

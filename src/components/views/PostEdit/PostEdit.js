@@ -1,37 +1,138 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { getPostById } from '../../../redux/postsRedux';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 import clsx from 'clsx';
 
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
 import styles from './PostEdit.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
-const Component = ({className, children}) => (
+const Component = ({className, posts}) => (
   <div className={clsx(className, styles.root)}>
-    <h2>PostEdit</h2>
-    {children}
+    <form>
+      <Card className={styles.card}>
+        <CardContent className={styles.content}>
+          <h2>Add title and description</h2>
+          <label>Title</label>
+          <TextField
+            required
+            id="filled-full-width"
+            label={posts.title}
+            variant="filled"
+            margin="none"
+            fullWidth
+            helperText="max 10 characters"
+            className={styles.field}
+          />
+          <label>Description</label>
+          <TextField
+            required
+            id="filled-full-width"
+            label={posts.description}
+            variant="filled"
+            margin="none"
+            fullWidth
+            helperText="max 20 characters"
+            className={styles.field}
+          />
+          <label>Price</label>
+          <TextField
+            id="filled-full-width"
+            type="number"
+            label={posts.price}
+            variant="filled"
+            margin="none"
+            fullWidth
+            helperText="PLN"
+            className={styles.field}
+          />
+        </CardContent>
+      </Card>
+      <Card className={styles.card}>
+        <CardContent className={styles.contentPhoto}>
+          <h2>Change photo</h2>
+          <label className={styles.file}>
+            <img src={posts.image} alt={posts.title}></img>
+            <FontAwesomeIcon
+              icon={faCamera}
+              className={styles.icon}
+            ></FontAwesomeIcon>
+            <input type="file"></input>
+          </label>
+          <p>Choose file</p>
+        </CardContent>
+      </Card>
+      <Card className={styles.card}>
+        <CardContent className={styles.content}>
+          <h2>Your contact details</h2>
+          <label>E-mail address</label>
+          <TextField
+            required
+            id="filled-full-width"
+            type="email"
+            label={posts.email}
+            variant="filled"
+            margin="none"
+            fullWidth
+            className={styles.field}
+          />
+          <label>Location</label>
+          <TextField
+            id="filled-full-width"
+            label={posts.location}
+            variant="filled"
+            margin="none"
+            fullWidth
+            className={styles.field}
+          />
+          <label>Phone number</label>
+          <TextField
+            id="filled-full-width"
+            type="number"
+            label={posts.phone}
+            variant="filled"
+            margin="none"
+            fullWidth
+            className={styles.field}
+          />
+        </CardContent>
+      </Card>
+      <Button
+        type="submit"
+        variant="contained"
+        className={styles.button}
+        color="primary"
+      >
+      Edit post
+      </Button>
+    </form>
   </div>
 );
 
 Component.propTypes = {
-  children: PropTypes.node,
+  posts: PropTypes.array,
   className: PropTypes.string,
 };
 
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
 
-// const mapDispatchToProps = dispatch => ({
-//   someAction: arg => dispatch(reduxActionCreator(arg)),
-// });
+const mapStateToProps = (state, props) => {
+  const posts = getPostById(state, props.match.params.id);
+  return {
+    posts,
+  };
+};
 
-// const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
+const Container = connect(mapStateToProps)(Component);
 
 export {
-  Component as PostEdit,
-  // Container as PostEdit,
+  Container as PostEdit,
   Component as PostEditComponent,
 };

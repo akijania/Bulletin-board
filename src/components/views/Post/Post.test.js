@@ -16,7 +16,10 @@ describe('Component Post', () => {
         title: 'New car',
       },
     ];
-    const component = shallow(<PostComponent posts={posts} />);
+    const user = {
+      active: true,
+    };
+    const component = shallow(<PostComponent posts={posts} user={user}/>);
     expect(component).toBeTruthy();
   });
 });

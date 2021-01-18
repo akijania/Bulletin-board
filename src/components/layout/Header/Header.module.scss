@@ -10,12 +10,13 @@
   margin-right: 20px;
 }
 
+.topBar {
+  background-color: $white;
+  z-index: -1;
+}
+
 .toolbar {
   display: flex;
   justify-content: space-between;
   margin-right: 30px;
-}
-
-.logout {
-  display: none;
 }

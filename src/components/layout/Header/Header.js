@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,35 +9,38 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import clsx from 'clsx';
 
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 // import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
 import styles from './Header.module.scss';
 
-const Component = ({ className }) => (
+const Component = ({ className, user }) => (
   <div className={clsx(className, styles.root)}>
-    <AppBar position="static" color="white">
+    <AppBar position="static" className={styles.topBar}>
       <Toolbar className={styles.toolbar}>
-        <FontAwesomeIcon icon={faCandyCane} className={styles.icon}>
-          Bulletin-board
-        </FontAwesomeIcon>
+        <Link to="/">
+          <FontAwesomeIcon icon={faCandyCane} className={styles.icon}>
+            Bulletin-board
+          </FontAwesomeIcon>
+        </Link>
         <div>
-          <div className={styles.login}>
-            <Button className={styles.button} color="inherit">
-              Login
-            </Button>
-          </div>
-          <div className={styles.logout}>
-            <Button className={styles.button} color="inherit">
-              <FontAwesomeIcon
-                icon={faUserCircle}
-                className={styles.icon}
-              ></FontAwesomeIcon>
-            </Button>
-            <Button className={styles.button} color="inherit">
-              Logout
-            </Button>
-          </div>
+          {user.active === true ? (
+            <div className={styles.logout}>
+              <Button className={styles.button}>
+                <FontAwesomeIcon
+                  icon={faUserCircle}
+                  className={styles.icon}
+                ></FontAwesomeIcon>
+              </Button>
+              <Button className={styles.button}>Logout</Button>
+            </div>
+          ) : (
+            <div className={styles.login}>
+              <Button href="https://google.com" className={styles.button}>
+                Login
+              </Button>
+            </div>
+          )}
         </div>
       </Toolbar>
     </AppBar>
@@ -45,20 +49,20 @@ const Component = ({ className }) => (
 
 Component.propTypes = {
   className: PropTypes.string,
+  user: PropTypes.object,
 };
 
-// const mapStateToProps = state => ({
-//   someProp: reduxSelector(state),
-// });
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
 
 // const mapDispatchToProps = dispatch => ({
 //   someAction: arg => dispatch(reduxActionCreator(arg)),
 // });
 
-// const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
+const Container = connect(mapStateToProps)(Component);
 
 export {
-  Component as Header,
-  // Container as Header,
+  Container as Header,
   Component as HeaderComponent,
 };
