@@ -54,7 +54,7 @@ const Component = ({ className, posts, user }) => (
 );
 
 Component.propTypes = {
-  posts: PropTypes.array,
+  posts: PropTypes.object,
   user: PropTypes.object,
   className: PropTypes.string,
 };

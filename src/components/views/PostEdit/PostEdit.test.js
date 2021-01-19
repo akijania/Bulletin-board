@@ -15,7 +15,10 @@ describe('Component PostEdit', () => {
         title: 'New car',
       },
     ];
-    const component = shallow(<PostEditComponent posts={posts}/>);
+    const user = {
+      active: true,
+    };
+    const component = shallow(<PostEditComponent posts={posts}  user={user}/>);
     expect(component).toBeTruthy();
   });
 });
