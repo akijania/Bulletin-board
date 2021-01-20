@@ -9,56 +9,69 @@ import Grid from '@material-ui/core/Grid';
 import clsx from 'clsx';
 
 import { connect } from 'react-redux';
-import { getAll } from '../../../redux/postsRedux';
+import { getAllPublished, fetchPublished } from '../../../redux/postsRedux';
 
 import styles from './Homepage.module.scss';
 
-const Component = ({ className, posts, user }) => (
-  <div className={clsx(className, styles.root)}>
-    { user.active === true &&
-    <Link to="/post/add" className={styles.button}>
-      <Button variant="contained" color="default">
-        Add new post
-      </Button>
-    </Link>
-    }
-    {posts.map((item) => (
-      <div key={item.id} className={styles.post}>
-        <Card>
-          <Grid container spacing={3}>
-            <Grid item xs={4}>
-              <div className={styles.image}>
-                <img src={item.image} alt={item.alt}></img>
-              </div>
-            </Grid>
-            <Grid item xs={8}>
-              <CardContent>
-                <Link to={`/post/${item.id}`} className={styles.button}>
-                  <h2>{item.title}</h2>
-                </Link>
-              </CardContent>
-            </Grid>
-          </Grid>
-        </Card>
+class Component extends React.Component {
+  
+  componentDidMount() {
+    const { fetchPublishedPosts } = this.props;
+    fetchPublishedPosts();
+  }
+
+  render() {
+    const { className, posts, user } = this.props;
+    return (
+      <div className={clsx(className, styles.root)}>
+        {user.active === true && (
+          <Link to="/post/add" className={styles.button}>
+            <Button variant="contained" color="default">
+              Add new post
+            </Button>
+          </Link>
+        )}
+        {posts.map((item) => (
+          <div key={item._id} className={styles.post}>
+            <Card>
+              <Grid container spacing={3}>
+                <Grid item xs={4}>
+                  <div className={styles.image}>
+                    {item.photo && <img src={item.photo} alt={item.title}></img>}
+                  </div>
+                </Grid>
+                <Grid item xs={8}>
+                  <CardContent>
+                    <Link to={`/post/${item.id}`} className={styles.button}>
+                      <h2>{item.title}</h2>
+                    </Link>
+                  </CardContent>
+                </Grid>
+              </Grid>
+            </Card>
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
-);
+    );
+  }
+}
 
 Component.propTypes = {
   posts: PropTypes.array,
   user: PropTypes.object,
   className: PropTypes.string,
+  fetchPublishedPosts: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
-  posts: getAll(state),
+  posts: getAllPublished(state),
   user: state.user,
 });
 
-const Container = connect(mapStateToProps)(Component);
+const mapDispatchToProps = (dispatch) => ({
+  fetchPublishedPosts: () => dispatch(fetchPublished()),
+});
 
-export {
-  Container as Homepage,
-  Component as HomepageComponent,
-};
+const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
+
+export { Container as Homepage, Component as HomepageComponent };

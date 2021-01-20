@@ -1,5 +1,7 @@
+import Axios from 'axios';
 /* selectors */
 export const getAll = ({ posts }) => posts.data;
+export const getAllPublished = ({posts}) => posts.data.filter(item => item.status === 'published');
 export const getPostById = ({ posts }, postId) => {
   const filtered = posts.data.filter((post) => post.id === postId);
   return filtered.length ? filtered[0] : { error: true };
@@ -24,6 +26,21 @@ export const fetchError = (payload) => ({ payload, type: FETCH_ERROR });
 export const addPost = (payload) => ({ payload, type: ADD_POST });
 
 /* thunk creators */
+
+export const fetchPublished = () => {
+  return (dispatch, getState) => {
+    dispatch(fetchStarted());
+
+    Axios
+      .get('http://localhost:8000/api/posts')
+      .then(res => {
+        dispatch(fetchSuccess(res.data));
+      })
+      .catch(err => {
+        dispatch(fetchError(err.message || true));
+      });
+  };
+};
 
 // export const addPostRequest = (post) => {
 //   return async dispatch => {
