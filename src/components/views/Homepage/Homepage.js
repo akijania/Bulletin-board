@@ -42,7 +42,7 @@ class Component extends React.Component {
                 </Grid>
                 <Grid item xs={8}>
                   <CardContent>
-                    <Link to={`/post/${item.id}`} className={styles.button}>
+                    <Link to={`/post/${item._id}`} className={styles.button}>
                       <h2>{item.title}</h2>
                     </Link>
                   </CardContent>

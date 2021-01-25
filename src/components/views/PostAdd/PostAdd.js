@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { addPostRequest } from '../../../redux/postsRedux';
 import { NotFound } from '../../views/NotFound/NotFound';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import clsx from 'clsx';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import { connect } from 'react-redux';
-// import { addPostRequest } from '../../../redux/postsRedux';
 
 import styles from './PostAdd.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,12 +20,15 @@ class Component extends React.Component {
   state = {
     post: {
       title: '',
-      description: '',
+      text: '',
+      created: '',
+      updated: '',
       price: '',
-      image: null,
-      email: '',
+      photo: '',
+      author: '',
       location: '',
       phone: '',
+      status: 'published',
     },
   };
   updateTextField = ({ target }) => {
@@ -46,23 +51,29 @@ class Component extends React.Component {
     else this.setState({ post: { ...post, image: null } });
   };
 
-  submitForm = async (e) => {
+  submitForm = (e) => {
     const { post } = this.state;
-    // const { addPost } = this.props;
+    const { addPost } = this.props;
 
     e.preventDefault();
 
-    if (post.title && post.description && post.email) {
-      // addPost(post);
+    if (post.title && post.text && post.author) {
+      post.updated = new Date().toISOString();
+      post.created = new Date().toISOString();
+
+      addPost(post);
       this.setState({
         post: {
           title: '',
-          description: '',
+          text: '',
+          created: '',
+          updated: '',
           price: '',
-          image: '',
-          email: '',
+          photo: '',
+          author: '',
           location: '',
           phone: '',
+          status: 'published',
         },
       });
     } else {
@@ -96,8 +107,8 @@ class Component extends React.Component {
                 />
                 <TextField
                   required
-                  value={post.description}
-                  name="description"
+                  value={post.text}
+                  name="text"
                   onChange={updateTextField}
                   id="filled-full-width"
                   label="Description"
@@ -118,6 +129,19 @@ class Component extends React.Component {
                   fullWidth
                   helperText="PLN"
                 />
+                <Select
+                  labelId="demo-simple-select-filled-label"
+                  id="demo-simple-select-filled"
+                  variant="filled"
+                  fullWidth
+                  name="status"
+                  value={post.status}
+                  onChange={updateTextField}
+                >
+                  <MenuItem value="draft">Draft</MenuItem>
+                  <MenuItem value="published">Published</MenuItem>
+                  <MenuItem value="finished">Finished</MenuItem>
+                </Select>
               </CardContent>
             </Card>
             <Card className={styles.card}>
@@ -138,8 +162,8 @@ class Component extends React.Component {
                 <h2>Your contact details</h2>
                 <TextField
                   required
-                  value={post.email}
-                  name="email"
+                  value={post.author}
+                  name="author"
                   onChange={updateTextField}
                   id="filled-full-width"
                   type="email"
@@ -161,7 +185,7 @@ class Component extends React.Component {
                 <TextField
                   value={post.phone}
                   name="phone"
-                  onChange={updateNumberField}
+                  onChange={updateTextField}
                   id="filled-full-width"
                   type="number"
                   label="Phone number"
@@ -186,7 +210,7 @@ class Component extends React.Component {
 }
 
 Component.propTypes = {
-  // addPost: PropTypes.func,
+  addPost: PropTypes.func,
   className: PropTypes.string,
   user: PropTypes.object,
 };
@@ -195,14 +219,10 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   addPost: post => dispatch(addPostRequest(post)),
-// });
+const mapDispatchToProps = (dispatch) => ({
+  addPost: (post) => dispatch(addPostRequest(post)),
+});
 
-const Container = connect(mapStateToProps)(Component);
+const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
 
-export {
-  // Component as PostAdd,
-  Container as PostAdd,
-  Component as PostAddComponent,
-};
+export { Container as PostAdd, Component as PostAddComponent };

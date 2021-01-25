@@ -19,7 +19,8 @@ describe('Component Post', () => {
     const user = {
       active: true,
     };
-    const component = shallow(<PostComponent posts={posts} user={user}/>);
+    const fetchPost = function (){};
+    const component = shallow(<PostComponent posts={posts} user={user} fetchPost={fetchPost}/>);
     expect(component).toBeTruthy();
   });
 });

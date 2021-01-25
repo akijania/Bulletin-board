@@ -10,7 +10,6 @@ import Button from '@material-ui/core/Button';
 import clsx from 'clsx';
 
 import { connect } from 'react-redux';
-// import { reduxSelector, reduxActionCreator } from '../../../redux/exampleRedux.js';
 
 import styles from './PostEdit.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
