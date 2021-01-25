@@ -5,6 +5,7 @@
   "scripts": {
     "start": "run-p start:* ",
     "start-silent": "run-p start > /dev/null",
+    "start:server": "npx nodemon backend/server.js",
     "start:react": "react-scripts start",
     "start-and-test": "run-p start-silent test ",
     "build": "react-scripts build",
@@ -48,6 +49,8 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "express": "^4.17.1",
+    "joi": "^17.3.0",
+    "mongo-sanitize": "^1.1.0",
     "mongodb": "^3.6.3",
     "mongoose": "^5.11.12",
     "node-sass": "^4.13.0",
