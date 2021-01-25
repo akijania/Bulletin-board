@@ -2,7 +2,7 @@ import Axios from 'axios';
 /* selectors */
 export const getAll = ({ posts }) => posts.data;
 export const getAllPublished = ({ posts }) => posts.data;
-export const getPostById = ({ posts }) => posts.data;
+export const getPostById = ({ posts }) => posts.post;
 
 /* action name creator */
 const reducerName = 'posts';
@@ -62,7 +62,7 @@ export const addPostRequest = (post) => {
     dispatch(fetchStarted({ name: 'ADD_POST' }));
     try {
       let res = await Axios.post(`http://localhost:8000/api/posts`, post);
-      dispatch(addPost(res.data));
+      dispatch(addPost(res.post));
       dispatch(fetchSuccess({ name: 'ADD_POST' }));
     } catch (err) {
       dispatch(fetchError({ name: 'ADD_POST', error: err.message || true }));
@@ -76,7 +76,7 @@ export const reducer = (statePart = [], action = {}) => {
     case LOAD_POSTS:
       return { ...statePart, data: [...action.payload] };
     case LOAD_POST:
-      return { ...statePart, data: action.payload };
+      return { ...statePart, post: action.payload };
     case ADD_POST:
       return { ...statePart, data: [...statePart.data, action.payload] };
     case FETCH_START: {

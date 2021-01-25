@@ -4,7 +4,7 @@ import { PostComponent } from './Post';
 
 describe('Component Post', () => {
   it('should render without crashing', () => {
-    const posts = [
+    const post = [
       {
         id: '1',
         title: 'Lorem',
@@ -20,7 +20,7 @@ describe('Component Post', () => {
       active: true,
     };
     const fetchPost = function (){};
-    const component = shallow(<PostComponent posts={posts} user={user} fetchPost={fetchPost}/>);
+    const component = shallow(<PostComponent post={post} user={user} fetchPost={fetchPost}/>);
     expect(component).toBeTruthy();
   });
 });
