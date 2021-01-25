@@ -27,7 +27,6 @@ router.get('/posts/:id', async (req, res) => {
 });
 
 router.post('/posts', async (req, res) => {
-  console.log(res.body);
   const schema = Joi.object({
     author: Joi.string().email({
       minDomainSegments: 2,
@@ -37,7 +36,11 @@ router.post('/posts', async (req, res) => {
     updated: Joi.date().iso().required(),
     status: Joi.string().valid('draft', 'published', 'finished').required(),
     title: Joi.string().alphanum().min(3).max(10).required(),
-    text: Joi.string().alphanum().min(3).max(50).required(),       
+    text: Joi.string().alphanum().min(3).max(50).required(),  
+    location: Joi.string().alphanum().min(0).allow('').allow(null),
+    phone: Joi.string().alphanum().min(0).allow('').allow(null),
+    price: Joi.number().allow('').allow(null),
+    photo: Joi.any().meta({swaggerType: 'file'}).optional().allow('').allow(null).description('image file'),
   });
   try {
     const { author,
@@ -50,34 +53,34 @@ router.post('/posts', async (req, res) => {
       price,
       phone,
       location } = req.body;
-    console.log(created, status);
-    if (!author || !created || !updated || !status || !title || !text)
-      throw new Error('Invalid data');
-    else {
-      const value = await schema.validateAsync({
-        author: author,
-        created: created,
-        updated: updated,
-        status: status,
-        title: title,
-        text: text,
-      });
-      const newPost = new Post({
-        author: author,
-        created: created,
-        updated: updated,
-        status: status,
-        title: title,
-        text: text,
-        photo: photo,
-        price: price,
-        phone: phone,
-        location: location,
-      });
+    const value = await schema.validateAsync({
+      author: author,
+      created: created,
+      updated: updated,
+      status: status,
+      title: title,
+      text: text,
+      photo: photo,
+      price: price,
+      phone: phone,
+      location: location,
+    });
+    const newPost = new Post({
+      author: author,
+      created: created,
+      updated: updated,
+      status: status,
+      title: title,
+      text: text,
+      photo: photo,
+      price: price,
+      phone: phone,
+      location: location,
+    });
 
-      await newPost.save();
-      res.json({ message: 'OK' });
-    }} catch (err) {
+    await newPost.save();
+    res.json({ message: 'OK' });
+  } catch (err) {
     res.status(500).json({ message: err });
   }
 });
