@@ -81,6 +81,7 @@ router.post('/posts', async (req, res) => {
     await newPost.save();
     res.json({ message: 'OK' });
   } catch (err) {
+    req.log.info('something else');
     res.status(500).json({ message: err });
   }
 });

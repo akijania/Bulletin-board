@@ -1,4 +1,5 @@
 const express = require('express');
+const pino = require('express-pino-logger')();
 const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -10,6 +11,7 @@ const app = express();
 /* MIDDLEWARE */
 app.use(cors());
 app.use(express.json());
+app.use(pino);
 app.use(express.urlencoded({ extended: false }));
 
 /* API ENDPOINTS */
