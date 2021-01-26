@@ -57,12 +57,12 @@ export const fetchPost = (id) => {
   };
 };
 
-export const addPostRequest = (post) => {
+export const addPostRequest = (data) => {
   return async (dispatch) => {
     dispatch(fetchStarted({ name: 'ADD_POST' }));
     try {
-      let res = await Axios.post(`http://localhost:8000/api/posts`, post);
-      dispatch(addPost(res.post));
+      let res = await Axios.post(`http://localhost:8000/api/posts`, data);
+      dispatch(addPost(res.data));
       dispatch(fetchSuccess({ name: 'ADD_POST' }));
     } catch (err) {
       dispatch(fetchError({ name: 'ADD_POST', error: err.message || true }));

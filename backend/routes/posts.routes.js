@@ -35,10 +35,10 @@ router.post('/posts', async (req, res) => {
     created: Joi.date().iso().required(),
     updated: Joi.date().iso().required(),
     status: Joi.string().valid('draft', 'published', 'finished').required(),
-    title: Joi.string().alphanum().min(3).max(10).required(),
-    text: Joi.string().alphanum().min(3).max(50).required(),  
-    location: Joi.string().alphanum().min(0).allow('').allow(null),
-    phone: Joi.string().alphanum().min(0).allow('').allow(null),
+    title: Joi.string().min(3).max(10).required(),
+    text: Joi.string().min(3).max(50).required(),  
+    location: Joi.string().min(0).allow('').allow(null),
+    phone: Joi.string().min(0).allow('').allow(null),
     price: Joi.number().allow('').allow(null),
     photo: Joi.any().meta({swaggerType: 'file'}).optional().allow('').allow(null).description('image file'),
   });
@@ -65,24 +65,13 @@ router.post('/posts', async (req, res) => {
       phone: phone,
       location: location,
     });
-    const newPost = new Post({
-      author: author,
-      created: created,
-      updated: updated,
-      status: status,
-      title: title,
-      text: text,
-      photo: photo,
-      price: price,
-      phone: phone,
-      location: location,
-    });
+    const newPost = new Post(value);
 
     await newPost.save();
-    res.json({ message: 'OK' });
+    
+    res.json({ message: 'ok' });
   } catch (err) {
-    req.log.info('something else');
-    res.status(500).json({ message: err });
+    res.status(500).json({ message: err.message });
   }
 });
 
