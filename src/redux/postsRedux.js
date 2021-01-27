@@ -28,18 +28,20 @@ export const addPost = (payload) => ({ payload, type: ADD_POST });
 
 export const fetchPublished = () => {
   return (dispatch, getState) => {
-    dispatch(fetchStarted({ name: 'LOAD_POSTS' }));
+    const { posts } = getState();
+    if (!posts.data.length || posts.loading.active === false) {
+      dispatch(fetchStarted({ name: 'LOAD_POSTS' }));
 
-    Axios.get('http://localhost:8000/api/posts')
-      .then((res) => {
-        dispatch(loadPosts(res.data));
-        dispatch(fetchSuccess({ name: 'LOAD_POSTS' }));
-      })
-      .catch((err) => {
-        dispatch(
-          fetchError({ name: 'LOAD_POSTS', error: err.message || true })
-        );
-      });
+      Axios.get('http://localhost:8000/api/posts')
+        .then((res) => {
+          dispatch(loadPosts(res.data));
+          dispatch(fetchSuccess({ name: 'LOAD_POSTS' }));
+        })
+        .catch((err) => {
+          dispatch(
+            fetchError({ name: 'LOAD_POSTS', error: err.message || true })
+          );
+        });}
   };
 };
 export const fetchPost = (id) => {
