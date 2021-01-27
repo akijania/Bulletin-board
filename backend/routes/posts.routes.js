@@ -68,8 +68,11 @@ router.post('/posts', async (req, res) => {
     await newPost.save();
     res.json({ message: value });
   } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+    if (err.name === 'ValidationError'){
+      res.status(400).json({ message: err.message }); 
+    } else {
+      res.status(500).json({ message: err.message });
+    }}
 });
 
 module.exports = router;
