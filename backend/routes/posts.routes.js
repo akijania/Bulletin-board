@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Joi = require('joi');
-
 const Post = require('../models/post.model');
 
 router.get('/posts', async (req, res) => {
@@ -52,7 +51,7 @@ router.post('/posts', async (req, res) => {
       photo,
       price,
       phone,
-      location } = req.body;
+      location } = req.body;    
     const value = await schema.validateAsync({
       author: author,
       created: created,
@@ -66,12 +65,10 @@ router.post('/posts', async (req, res) => {
       location: location,
     });
     const newPost = new Post(value);
-
     await newPost.save();
-    
-    res.json({ message: 'ok' });
+    res.json({ message: value });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(400).json({ message: err.message });
   }
 });
 
